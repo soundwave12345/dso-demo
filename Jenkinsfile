@@ -94,13 +94,31 @@ pipeline {
             }
           }
         }
-	stage('Docker BnP') {
-	  steps {
-	    container('kaniko') {
-	      sh '/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd`  --destination=docker.io/soundwave12345/dsodemo:latest'
-	    }
-	  }
-	}
+	      stage('Docker BnP') {
+	        steps {
+	          container('kaniko') {
+	            sh '/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd`  --destination=docker.io/soundwave12345/dsodemo:latest'
+	          }
+	        }
+	      }
+      }
+    }
+    stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+          steps {
+            container('docker-tools') {
+              sh 'dockle docker.io/soundwave12345/dsodemo'
+            }
+          }
+        }
+        stage('Image Scan') {
+          steps {
+            container('docker-tools') {
+              sh 'trivy image --exit-code 1 soundwave12345/dso-demo'
+            }
+          } 
+        }
       }
     }
 
