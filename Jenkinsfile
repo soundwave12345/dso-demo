@@ -97,7 +97,7 @@ pipeline {
 	      stage('Docker BnP') {
 	        steps {
 	          container('kaniko') {
-	            sh '/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd`  --destination=docker.io/soundwave12345/dsodemo:latest'
+	            sh '/kaniko/executor --verbosity debug -f `pwd`/Dockerfile -c `pwd`  --destination=docker.io/soundwave12345/dsodemo'
 	          }
 	        }
 	      }
