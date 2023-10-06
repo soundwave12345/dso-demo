@@ -5,7 +5,6 @@ RUN mvn package -DskipTests
 
 
 FROM openjdk:17-alpine AS RUN
-RUN mvn package -DskipTests && \
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /run/demo.jar
 EXPOSE 8080
 CMD java  -jar /run/demo.jar
