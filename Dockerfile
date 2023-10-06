@@ -11,7 +11,8 @@ ENV HOME /home/$USER
 RUN adduser --disabled-login $USER && \
 chown $USER:$USER /run/demo.jar
 RUN apt-get update \
- && apt-get install -y curl
+ && apt-get install -y curl \
+ && rm -rf /var/lib/apt/lists/*
 HEALTHCHECK --interval=30s --timeout=10s --retries=2 --start-period=20s \
 CMD curl -f http://localhost:8080/ || exit 1
 USER $USER
